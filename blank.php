@@ -55,15 +55,21 @@
                 <nav id="sideNav"><!-- MAIN MENU -->
                     <ul class="nav nav-list">
                         <li><!-- dashboard -->
-                            <a class="dashboard" href="index.html"><!-- warning - url used by default by ajax (if eneabled) -->
+                            <a class="dashboard" href="index.php"><!-- warning - url used by default by ajax (if eneabled) -->
                                 <i class="main-icon fa fa-dashboard"></i> <span>Dashboard</span>
                             </a>
                         </li>
 
 
                         <li><!-- dashboard -->
-                            <a class="dashboard" href="create.php"><!-- warning - url used by default by ajax (if eneabled) -->
+                            <a class="dashboard" href="newitem.php"><!-- warning - url used by default by ajax (if eneabled) -->
                                 <i class="main-icon fa fa-edit"></i> <span>Create Item</span>
+                            </a>
+                        </li>
+                        
+                        <li><!-- dashboard -->
+                            <a class="dashboard" href="index.php"><!-- warning - url used by default by ajax (if eneabled) -->
+                                <i class="main-icon fa fa-edit"></i> <span>View Items</span>
                             </a>
                         </li>
 
@@ -151,13 +157,7 @@
 
 
                 <!-- page title -->
-                <header id="page-header">
-                    <h1>Blank Page</h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#">Pages</a></li>
-                        <li class="active">Blank Page</li>
-                    </ol>
-                </header>
+               <?php echo $header;?>
                 <!-- /page title -->
 
 
@@ -170,14 +170,14 @@
             <!-- /MIDDLE -->
 
         </div>
-        <div class="footer">
+        <footer class="page-footer text-center font-small">
             <div class="container">
-                <p>Codershift.com copyright  &copy; 2015-<?php
+                <p> &copy; 2015-<?php
                     $today = date(Y);
                     echo $today;
-                    ?></p>
+                    ?> Codershift.com</p>
             </div>
-        </div>
+        </footer>
 
 
 
@@ -187,5 +187,15 @@
         <script type="text/javascript" src="assets/plugins/jquery/jquery-2.2.3.min.js"></script>
         <script type="text/javascript" src="assets/js/app.js"></script>
         <script type="text/javascript" src="myjs/tables.js"></script>
+        <script type="text/javascript" src="myjs/myjs.js"></script>
+   
+        <script>
+        
+        </script>
+            
+    
+    
     </body>
+    
+    
 </html>

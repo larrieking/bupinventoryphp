@@ -2,20 +2,23 @@ $(document).ready(
 function (){
     $.ajax({
         type : "GET",
-        url : "api/items/allUser.php",
+        url : "api/items/readitem.php",
         dataType: 'json',
         success: function(data) {
             var response="";
             for(var user in data){
                 response += "<tr>"+
-                "<td>"+data[user].user_id+"</td>"+
-                "<td>"+data[user].email+"</td>"+
-                "<td>"+data[user].password+"</td>"+
-                "<td>"+data[user].username+"</td>"+
+                "<td>"+data[user].itemno+"</td>"+
+                "<td>"+data[user].itemname+"</td>"+
+                "<td>"+data[user].uom+"</td>"+
+                "<td>"+data[user].openingstock+"</td>"+
+                 "<td>"+data[user].itemclass+"</td>"+
+                "<td><a href ='#'>"+"Edit"+"</a></td>"+
+                "<td><a href='#'>"+"Delete"+"</a></td>"+
                 
                 "</tr>";
             }
-            $(response).appendTo($("#sample_editable_1"));
+           ($("#t").html(response));
         }
 
         
@@ -77,7 +80,7 @@ loadScript(plugin_path + "datatables/js/jquery.dataTables.min.js", function(){
 					oTable.fnDraw();
 				}
 
-				var table = $('#sample_editable_1');
+				var table = $('#ble > #sample_editable_1');
 
 				var oTable = table.dataTable({
 					"lengthMenu": [

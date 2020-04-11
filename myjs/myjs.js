@@ -34,7 +34,7 @@ function addUser() {
             success: function (result) {
                 if (result["status"] === true) {
                     //toastr.success("User Account Created Successfully!");
-                    $("#notification").html("<div class = 'alert alert-success alert-dismissible'>Thanks for registration, a confirmation email has been sent to "+email+". Please click on the activation link in the mail to activate your account. <br /> Check your SPAM folder if mail is not found in your inbox inbox.</div>");
+                    $("#notification").html("<div class = 'alert alert-success alert-dismissible'>Thanks for registration, a confirmation email has been sent to " + email + ". Please click on the activation link in the mail to activate your account. <br /> Check your SPAM folder if mail is not found in your inbox inbox.</div>");
                 } else
                     toastr.error(result["message"])
 
@@ -72,13 +72,13 @@ function login() {
     email = $("#email").val();
     password = $("#password").val();
     //password2 = $("#password2").val();
-     {
+    {
         $.ajax({
             type: "POST",
             url: "api/items/login.php",
             dataType: 'json',
             data: {
-               // username: username,
+                // username: username,
                 email: email,
                 password: password
 
@@ -103,4 +103,59 @@ function login() {
 }
 
 
-        //echo "<div class = 'alert  alert-success alert-dismissible'>Thanks for registration, a confirmation email has been sent to $email. Please click on the activation link in the mail to activate your account. <br /> Check your SPAM folder if mail absent on inbox.</div>";
+//echo "<div class = 'alert  alert-success alert-dismissible'>Thanks for registration, a confirmation email has been sent to $email. Please click on the activation link in the mail to activate your account. <br /> Check your SPAM folder if mail absent on inbox.</div>";
+
+
+
+function addProduct() {
+    $("#b").attr('disabled', 'disabled');
+     $("#b").val('Sending...');
+    itemclass = $("#itemclass").val();
+    itemname = $("#itemname").val();
+    itemno = $("#itemno").val();
+    openingstock = $("#openingstock").val();
+    optimal = $("#optimal").val();
+    overstock = $("#overstock").val();
+    understock = $("#understock").val();
+    uom = $("#uom").val();
+    uses = $("#uses").val();
+    //
+    {
+        $.ajax({
+            type: "POST",
+            url: "api/items/createitem.php",
+            dataType: 'json',
+            data: {
+                itemclass : itemclass,
+                itemname : itemname,
+                itemno : itemno,
+                openingstock : openingstock,
+                optimal : optimal,
+                overstock : overstock,
+                understock : understock,
+                uom : uom,
+                uses:uses
+
+            },
+
+            error: function (result) {
+                alert(result.responseText);
+            },
+
+            success: function (result) {
+                if (result["status"] === true) {
+                    toastr.success("Item Created Successfully!");
+                    window.location = "index.php";
+                    $("#b").removeAttr('disabled');
+                  //  $("#notification").html("<div class = 'alert alert-success alert-dismissible'>Thanks for registration, a confirmation email has been sent to " + email + ". Please click on the activation link in the mail to activate your account. <br /> Check your SPAM folder if mail is not found in your inbox inbox.</div>");
+                } else{
+                    toastr.error(result["message"]);
+                    $("#b").removeAttr('disabled');
+                    
+
+                }
+                 $("#b").val('Create');
+            }
+        });
+    }
+}

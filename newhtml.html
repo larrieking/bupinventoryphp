@@ -1,31 +1,62 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
-	<thead>
-		<tr>
-			<th>Username</th>
-			<th>Full Name</th>
-			<th>Points</th>
-			<th>Notes</th>
-			<th>Edit</th>
-			<th>Delete</th>
-		</tr>
-	</thead>
+<form class="validate" action="php/contact.php" method="post" enctype="multipart/form-data" data-success="Sent! Thank you!" data-toastr-position="top-right">
+    <fieldset>
+        <!-- required [php action request] -->
+        <input type="hidden" name="action" value="contact_send" />
 
-	<tbody>
-		
-	</tbody>
-</table>
-    </body>
-</html>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6">
+                    <label>First Name *</label>
+                    <input type="text" name="contact[first_name]" value="" class="form-control required">
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Last Name *</label>
+                    <input type="text" name="contact[last_name]" value="" class="form-control required">
+                </div>
+            
+        </div>
+        <div class="row">
+                               <div class="form-group">
+                <div class="col-md-6 col-sm-6">
+                    <label>Email *</label>
+                    <input type="email" name="contact[email]" value="" class="form-control required">
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Phone *</label>
+                    <input type="text" name="contact[phone]" value="" class="form-control required">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class ="form-group">
+                >                         <div class="col-md-6 col-sm-">
+                    <label>Position *</label>
+                    <select name="contact[position]" class="form-control pointer required">
+                        <option value="">--- Select ---</option>
+                        <option value="Marketing">PR & Marketing</option>
+                        <option value="Developer">Web Developer</option>
+                        <option value="php">PHP Programmer</option>
+                        <option value="Javascript">Javascript Programmer</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Start Date *</label>
+                    <input type="text" name="contact[start_date]" value="" class="form-control datepicker required" data-format="yyyy-mm-dd" data-lang="en" data-RTL="false">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-teal btn-lg ">
+                    Create
+
+                </button>
+            </div>
+        </div>
+
+    </fieldset>
+
+
+
+</form>

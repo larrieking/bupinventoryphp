@@ -1,6 +1,10 @@
-
-
 <?php
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 session_start();
 
@@ -14,13 +18,10 @@ if (!isset($_SESSION['user_id'])) {
 
 
 
-$title = "Inventory|Home";
+$title = "Inventory|New Product";
 include 'api/config/database.php';
 
-
 ?>
-
-
 
 
 
@@ -29,7 +30,7 @@ include 'api/config/database.php';
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>Inventory|Items</title>
+        <title><?php echo $title; ?></title>
         <meta name="description" content="" />
         <meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
 
@@ -48,6 +49,8 @@ include 'api/config/database.php';
         <link href="assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
         <link rel="stylesheet" href="css/styles.css"/>
         <link href="assets/css/layout-datatable.css" rel="stylesheet" type="text/css" />
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+
     </head>
     <!--
             .boxed = boxed version
@@ -84,7 +87,7 @@ include 'api/config/database.php';
 
 
                         <li><!-- dashboard -->
-                            <a class="dashboard" href="newitem.php"><!-- warning - url used by default by ajax (if eneabled) -->
+                            <a class="dashboard" href="newproduct.php"><!-- warning - url used by default by ajax (if eneabled) -->
                                 <i class="main-icon fa fa-edit"></i> <span>Create Item</span>
                             </a>
                         </li>
@@ -178,36 +181,107 @@ include 'api/config/database.php';
             <section id="middle">
 
 
-                <header id="page-header">
+                <!-- page title -->
+               <header id="page-header">
                     <h1>Add New Item</h1>
                     <ol class="breadcrumb">
                         <li><a href="#">Home</a></li>
                         <li class="active">Add Item</li>
                     </ol>
                 </header>
+                <!-- /page title -->
 
 
                 <div id="content" class="padding-20">
 
-                  <div id = "ble" class = "table-responsive">
-     <table class=" table table-striped table-hover table-bordered" id="sample_editable_1">
-	<thead>
-		<tr>
-			<th>Item No</th>
-			<th>Item Name</th>
-			<th>UOM</th>
-			<th>Item Clas</th>
-			<th>Available stock</th>
-			<th>Edit</th>
-                        <th>Delete</th>
-		</tr>
-	</thead>
+                    <form>
+    <fieldset>
+        
 
-	<tbody id = "t">
-		
-	</tbody>
-</table>
-</div>
+        
+        <div class="row">
+                               <div class="form-group">
+                <div class="col-md-6 col-sm-6">
+                    <label>Item Name *</label>
+                    <input type="text" id="itemname" value="" class="form-control required">
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Item Class *</label>
+                    <input type="text" id="itemclass" value="" class="form-control required">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+                               <div class="form-group">
+                <div class="col-md-6 col-sm-6">
+                    <label>Item No. *</label>
+                    <input type="text" id="itemno" value="" class="form-control required">
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Uses *</label>
+                    <input type="text" id="uses" value="" class="form-control required">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+                               <div class="form-group">
+                <div class="col-md-6 col-sm-6">
+                    <label>Opening Stock *</label>
+                    <input type="text" id="openingstock" value="" class="form-control required">
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Optimal Level *</label>
+                    <input type="text" id="optimal" value="" class="form-control required">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+                               <div class="form-group">
+                <div class="col-md-6 col-sm-6">
+                    <label>Over Stock Level *</label>
+                    <input type="text" id="overstock" value="" class="form-control required">
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Under Stock Level *</label>
+                    <input type="text" id="understock" value="" class="form-control required">
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+                               <div class="form-group">
+                <div class="col-md-6 col-sm-6">
+                    <label>UOM *</label>
+                    <input type="text" id="uom" value="" class="form-control required">
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <label>Date *</label>
+                    <input type="text" id="date" value="" class="form-control required">
+                </div>
+            </div>
+        </div>
+        
+        
+       
+
+        <div class="row">
+            <div class="col-md-12">
+                <input id="b" type="button" onclick="addProduct()" class="btn btn-teal btn-lg " value="Create">
+                
+                    
+
+                
+            </div>
+        </div>
+
+    </fieldset>
+
+
+
+</form>
 
                 </div>
             </section>
@@ -236,7 +310,7 @@ include 'api/config/database.php';
         <script>
         
         </script>
-            
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
     
     
     </body>
