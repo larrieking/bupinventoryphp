@@ -16,7 +16,7 @@ $db = $database->getConnection();
 $product = new NewProduct($db);
 
 $product ->setCreatedby($_SESSION["username"]);
-$product->setDate(date('Y-m-d-H:i:s'));
+$product->setDate(date('Y-m-d'));
 $product->setItemclass($_POST["itemclass"]);
 $product->setItemname($_POST["itemname"]);
 $product->setItemno($_POST["itemno"]);
@@ -27,8 +27,14 @@ $product->setUnderstock($_POST["understock"]);
 $product->setUom($_POST["uom"]);
 $product->setUses($_POST["uses"]);
 
+if($product->findByItemNo($product->getItemno())>0){
+    $no = $product->getItemno();
+    $result_arr = array("status"=>false,
+        "message"=>"Item No.'$no' already exist!");
+}
 
-if($product->create()){
+
+elseif($product->create()){
     $result_arr = array(
         "status"=>true,
         "message"=>"Item Created Successfully"

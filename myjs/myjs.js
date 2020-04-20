@@ -91,7 +91,7 @@ function login() {
             success: function (result) {
                 if (result["status"] === true) {
                     toastr.success("Login Successful!");
-                    window.location = "index.php"
+                    window.location = "home.php"
                     //$("#notification").html("<div class = 'alert alert-success alert-dismissible'>Thanks for registration, a confirmation email has been sent to "+email+". Please click on the activation link in the mail to activate your account. <br /> Check your SPAM folder if mail is not found in your inbox inbox.</div>");
                 } else
                     toastr.error(result["message"])
@@ -108,6 +108,7 @@ function login() {
 
 
 function addProduct() {
+    
     $("#b").attr('disabled', 'disabled');
      $("#b").val('Sending...');
     itemclass = $("#itemclass").val();
@@ -119,7 +120,14 @@ function addProduct() {
     understock = $("#understock").val();
     uom = $("#uom").val();
     uses = $("#uses").val();
+    
+    error = validateItem(itemname, itemclass, itemno, uses, openingstock);
     //
+    if(error.length > 0){
+        toastr.error(error);
+        $("#b").removeAttr('disabled');
+        $("#b").val('Create');
+    }else
     {
         $.ajax({
             type: "POST",
@@ -149,7 +157,8 @@ function addProduct() {
                     $("#b").removeAttr('disabled');
                   //  $("#notification").html("<div class = 'alert alert-success alert-dismissible'>Thanks for registration, a confirmation email has been sent to " + email + ". Please click on the activation link in the mail to activate your account. <br /> Check your SPAM folder if mail is not found in your inbox inbox.</div>");
                 } else{
-                    toastr.error(result["message"]);
+                    mes = result["message"];
+                    toastr.error(mes);
                     $("#b").removeAttr('disabled');
                     
 
@@ -158,4 +167,125 @@ function addProduct() {
             }
         });
     }
+}
+
+
+function validateItem(itemname, itemclass, itemno, uses, openingstock){
+    error = '';
+    if(itemname.length <= 0 || itemclass.length <= 0 || itemno.length <= 0 || uses.length <= 0 || openingstock.length <= 0){
+        error += "Please complete all required field";
+    }
+    
+    
+    return error;
+}
+
+
+function doDelete(id){
+    var result = confirm("Are you sure you want to Delete the Doctor Record?");
+    if (result === true){
+        $.ajax({
+            type: "POST",
+            url: "api/items/deleteitem.php",
+            dataType: 'json',
+            data: {
+                id : id
+
+            },
+
+            error: function (result) {
+                alert(result.responseText);
+            },
+
+            success: function (result) {
+                if (result["status"] === true) {
+                    toastr.success("Item Deleted Successfully");
+                   window.location = 'index.php';
+                } else
+                    toastr.error("An error occured! ")
+
+
+            }
+        });
+    }
+}
+
+
+function createAdjustment(){
+    
+    
+    $("#b").attr('disabled', 'disabled');
+     $("#b").val('Posting....');
+   // itemclass = $("#itemclass").val();
+    item = $("#item").val();
+    adjustmenttype = $("#adjustmenttype").val();
+    quantity= $("#quantity").val();
+    reason = $("#reason").val();
+   
+                      //  toastr.success(adjustmenttype);
+
+   // error = validateItem(itemname, itemclass, itemno, uses, openingstock);
+    //
+   // if(error.length > 0){
+        //toastr.error(error);
+       // $("#b").removeAttr('disabled');
+       // $("#b").val('Create');
+    //}else
+    {
+        $.ajax({
+            type: "POST",
+            url: "api/items/stockadjustment.php",
+            dataType: 'json',
+            data: {
+               // itemclass : itemclass,
+                item : item,
+                adjustmenttype : adjustmenttype,
+                qty : quantity,
+                reason : reason
+                
+
+            },
+
+            error: function (result) {
+                alert(result.responseText);
+            },
+
+            success: function (result) {
+                if (result["status"] === true) {
+                    clearInput();
+                    toastr.success("Adjustment posted successfully!");
+                    //window.location = "index.php";
+                    $("#b").removeAttr('disabled');
+                  //  $("#notification").html("<div class = 'alert alert-success alert-dismissible'>Thanks for registration, a confirmation email has been sent to " + email + ". Please click on the activation link in the mail to activate your account. <br /> Check your SPAM folder if mail is not found in your inbox inbox.</div>");
+                } else{
+                    mes = result["message"];
+                    toastr.error(mes);
+                    $("#b").removeAttr('disabled');
+                    
+
+                }
+                 $("#b").val('Post');
+            }
+        });
+    }
+}
+
+
+function clearInput(){
+    $("#item").val('');
+    $("#adjustmenttype").val('');
+    $("#quantity").val('');
+    $("#reason").val('');
+    
+}
+
+    
+function validateAdjustment(itemname, itemclass, itemno, uses){
+    error = '';
+    if(itemname.length <= 0 || itemclass.length <= 0 || itemno.length <= 0 || uses.length <= 0 ){
+        error += "Please complete all required field";
+    }
+    
+    
+    return error;
 }

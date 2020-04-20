@@ -1,6 +1,5 @@
 <?php
-
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -18,10 +17,31 @@ if (!isset($_SESSION['user_id'])) {
 
 
 
+
 $title = "Inventory|New Product";
 include 'api/config/database.php';
 
+
+$database = new Database();
+$con = $database->getConnection();
+
+if(isset($_GET["id"])){
+   $item_name = $_GET["id"];
+   $item_name = mysqli_real_escape_string($con, $item_name);
+    $sql = "SELECT * FROM stock_adjustment  WHERE itemname = '$item_name' ORDER BY id ASC";
+
+}
+
+
+else{
+    $sql = "SELECT * FROM stock_adjustment ORDER BY id ASC";
+
+}
+$result = mysqli_query($con, $sql);
+
 ?>
+
+
 
 
 
@@ -30,7 +50,7 @@ include 'api/config/database.php';
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title><?php echo $title; ?></title>
+        <title>Inventory|Items</title>
         <meta name="description" content="" />
         <meta name="Author" content="Dorin Grigoras [www.stepofweb.com]" />
 
@@ -49,7 +69,9 @@ include 'api/config/database.php';
         <link href="assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
         <link rel="stylesheet" href="css/styles.css"/>
         <link href="assets/css/layout-datatable.css" rel="stylesheet" type="text/css" />
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+        <link href=" https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel ="stylesheet"/>
+        <link href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet"/>
 
     </head>
     <!--
@@ -130,8 +152,6 @@ include 'api/config/database.php';
 
 
                 </nav>
-                
-                
 
                 <span id="asidebg"><!-- aside fixed background --></span>
             </aside>
@@ -146,7 +166,8 @@ include 'api/config/database.php';
 
                 <!-- Logo -->
                 <span class="logo pull-left">
-                    <img src="assets/images/bulogo.png" alt="admin panel" height="35" />
+                                       <img src="assets/images/bulogo.png" alt="admin panel" height="35" />
+
                 </span>
 
                 <form method="get" action="page-search.html" class="search pull-left hidden-xs">
@@ -164,7 +185,7 @@ include 'api/config/database.php';
                                 <img class="user-avatar" alt="" src="assets/images/noavatar.jpg" height="34" /> 
                                 <span class="user-name">
                                     <span class="hidden-xs">
-                                        <?php echo $_SESSION["username"]; ?> <i class="fa fa-angle-down"></i>
+<?php echo $_SESSION["username"]; ?> <i class="fa fa-angle-down"></i>
                                     </span>
                                 </span>
                             </a>
@@ -181,7 +202,7 @@ include 'api/config/database.php';
 
                                 <li class="divider"></li>
 
-                                
+                               
                                 <li><!-- logout -->
                                     <a href="login.php?logout=1"><i class="fa fa-power-off"></i> Log Out</a>
                                 </li>
@@ -204,108 +225,53 @@ include 'api/config/database.php';
             <section id="middle">
 
 
-                <!-- page title -->
-               <header id="page-header">
-                    <h1>Add New Item</h1>
+                <header id="page-header">
+                    <h1>Items</h1>
                     <ol class="breadcrumb">
-                        <li><a href="index.php">Home</a></li>
-                        <li class="active">Add Item</li>
+                        <li><a href="#">Home</a></li>
+                        <li class="active">All Items</li>
                     </ol>
                 </header>
-                <!-- /page title -->
 
 
                 <div id="content" class="padding-20">
 
-                    <form>
-    <fieldset>
-        
+                    <div id = "ble" class = "table-responsive">
+                        <table class="display nowrap table table-striped table-hover table-bordered" id="sample_editable_1">
+                            <thead>
+                                <tr>
+                                    <th>Entry No.</th>
+                                    <th>Item Name</th>
+                                    <th>Quantity</th>
+                                    <th>Prev. Bal</th>
+                                    <th>New Bal.</th>
+                                    <th>Reason</th>
+                                    <th>Adjusted By</th>
 
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>Item Name *</label>
-                    <input value=""  type="text" id="itemname"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Item Class *</label>
-                    <input value=""  type="text" id="itemclass"  class="form-control required">
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>Item No. *</label>
-                    <input value=""  type="text" id="itemno"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Uses *</label>
-                    <input value=""  type="text" id="uses"  class="form-control required">
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>Opening Stock *</label>
-                    <input value=""  type="number" id="openingstock"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Optimal Level </label>
-                    <input value="" type="number" id="optimal"  class="form-control required">
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>Over Stock Level </label>
-                    <input value="" type="number" id="overstock"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Under Stock Level </label>
-                    <input  value="" type="number" id="understock"  class="form-control required">
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>UOM </label>
-                    <input value=""  type="text" id="uom"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Date </label>
-                    <input type="text" id="date" value="<?php echo date('m-d-Y');?>" class="form-control required" readonly
-     >
-                </div>
-            </div>
-        </div>
-        
-        
-       
+                                    <th>Reason</th>
+                                     <th>Date</th>
+                                    
+                                </tr>
+                            </thead>
 
-        <div class="row">
-            <div class="col-md-12">
-                <input id="b" type="button" onclick="addProduct()" class="btn btn-teal btn-lg " value="Create">
-                
-                    
-
-                
-            </div>
-        </div>
-
-    </fieldset>
-
-
-
-</form>
+                            <tbody id = "t">
+ <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                                <tr>
+                                    <td><?= $row["id"]?></td>
+                                     <td><?= $row["itemname"]?></td>
+                                      <td><?= $row["newquantity"]?></td>
+                                      <td><?= $row["oldquantity"]?></td>
+                                      <td><?= (int)$row["oldquantity"] + (int)$row["newquantity"];?></td>
+                                      
+                                       <td><?= $row["reason"]?></td>
+                                        <td><?= $row["adjustedby"]?></td>
+                                        <td><?= $row["reason"]?></td>
+                                        <td><?= $row["date"]?></td>
+                                </tr>
+                                    <?php } ?> 
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </section>
@@ -315,9 +281,9 @@ include 'api/config/database.php';
         <footer class="page-footer text-center font-small">
             <div class="container">
                 <p> &copy; 2015-<?php
-                    $today = date(Y);
-                    echo $today;
-                    ?> Codershift.com</p>
+$today = date(Y);
+echo $today;
+?> Codershift.com</p>
             </div>
         </footer>
 
@@ -330,14 +296,25 @@ include 'api/config/database.php';
         <script type="text/javascript" src="assets/js/app.js"></script>
         <script type="text/javascript" src="myjs/tables.js"></script>
         <script type="text/javascript" src="myjs/myjs.js"></script>
-   
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js "></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js "></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"> </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js "></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js "></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js "></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js "></script>
+        <script src="ttps://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+
         <script>
-        
+
         </script>
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-    
-    
+
+
+
     </body>
-    
-    
+
+
 </html>

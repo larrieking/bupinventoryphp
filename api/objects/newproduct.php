@@ -16,6 +16,10 @@ class  NewProduct{
         $this->con = $db;
     }
     
+   
+            
+    
+    
     public function setId($id) {
         $this->id = $id;
     }
@@ -169,4 +173,33 @@ class  NewProduct{
 
 
 
+function delete($id){
+    $sql = "DELETE FROM new_product WHERE id = '$id'";
+    if(mysqli_query($this->con, $sql)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function findByItemNo($ItemNo){
+     
+            $sql = "SELECT * FROM new_product WHERE item_no = '$ItemNo'";
+            $result = mysqli_query($this->con, $sql);
+            return mysqli_num_rows($result);
+        
+}
+
+function updateByItemName($qty, $itemname){
+    
+    $sql = "UPDATE new_product SET opening_stock = '$qty' WHERE item_name = '$itemname' ";
+    
+    if(mysqli_query($sql, $this->con)){
+        return true;
+    }else{
+        return false;
+    }
+    
+    
+}
 }

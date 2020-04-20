@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 session_start();
-include 'logout.php';
+
 
 ?>
 
@@ -15,7 +15,7 @@ include 'logout.php';
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>BUPInventory| Log in</title>
+  <title>BUPInventory| Reset Password</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -39,11 +39,13 @@ include 'logout.php';
 <div class="login-box" >
     
   <!-- /.login-logo -->
-  <div class="card">
+     <div id="message"></div>
+  <div  id="resetForm" class="card">
     <div class="card-body login-card-body">
-        <p class="login-box-msg"><strong>Sign in </strong></p>
-
-      <form method="post">
+      
+        <p class="login-box-msg"><strong>Reset your password </strong></p>
+       
+        <form>
         <div class="input-group mb-3">
             <input type="email" class="form-control" placeholder="Email" name="email" id="email">
           <div class="input-group-append">
@@ -52,49 +54,23 @@ include 'logout.php';
             </div>
           </div>
         </div>
-        <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Password" name="password" id="password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
+       
         <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember">
-              <label for="remember">
-                Remember Me
-              </label>
-            </div>
-          </div>
+          
           <!-- /.col -->
           <div class="col-4">
-               <input type='button'  class="btn btn-primary btn-block" onclick="login()" value='Submit'>
+               <input type='button'  class="btn btn-primary btn-block" onclick="ret()" value='Send'>
               
           </div>
           <!-- /.col -->
         </div>
       </form>
 
-      <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-        <a href="#" class="btn btn-block btn-primary disabled">
-          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-        </a>
-        <a href="#" class="btn btn-block btn-danger disabled">
-          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-        </a>
-      </div>
+      
       <!-- /.social-auth-links -->
 
-      <p class="mb-1">
-          <a href="resetpassword.php">I forgot my password</a>
-      </p>
-      <p class="mb-0">
-        <a href="register.php" class="text-center">Register a new membership</a>
-      </p>
+     
+      
     </div>
     <!-- /.login-card-body -->
   </div>
@@ -108,7 +84,7 @@ include 'logout.php';
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="assets/js/adminlte.min.js"></script>
-<script src="myjs/myjs.js"></script>
+<script src="myjs/reset.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
 </body>

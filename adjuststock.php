@@ -1,6 +1,5 @@
 <?php
-
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,6 +20,11 @@ if (!isset($_SESSION['user_id'])) {
 $title = "Inventory|New Product";
 include 'api/config/database.php';
 
+$sql = "SELECT id, item_name FROM new_product";
+
+$database = new Database();
+$con = $database->getConnection();
+$result = mysqli_query($con, $sql);
 ?>
 
 
@@ -49,7 +53,7 @@ include 'api/config/database.php';
         <link href="assets/css/color_scheme/green.css" rel="stylesheet" type="text/css" id="color_scheme" />
         <link rel="stylesheet" href="css/styles.css"/>
         <link href="assets/css/layout-datatable.css" rel="stylesheet" type="text/css" />
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
 
     </head>
     <!--
@@ -77,7 +81,7 @@ include 'api/config/database.php';
                                 <span class="label label-success pull-right">1</span>
                                 <span class="label label-info pull-right">1</span>
                 -->
-                <nav id="sideNav"><!-- MAIN MENU -->
+             <nav id="sideNav"><!-- MAIN MENU -->
                     <ul class="nav nav-list">
                         <li><!-- dashboard -->
                             <a class="dashboard" href="home.php"><!-- warning - url used by default by ajax (if eneabled) -->
@@ -130,8 +134,6 @@ include 'api/config/database.php';
 
 
                 </nav>
-                
-                
 
                 <span id="asidebg"><!-- aside fixed background --></span>
             </aside>
@@ -146,7 +148,8 @@ include 'api/config/database.php';
 
                 <!-- Logo -->
                 <span class="logo pull-left">
-                    <img src="assets/images/bulogo.png" alt="admin panel" height="35" />
+                                       <img src="assets/images/bulogo.png" alt="admin panel" height="35" />
+
                 </span>
 
                 <form method="get" action="page-search.html" class="search pull-left hidden-xs">
@@ -170,16 +173,10 @@ include 'api/config/database.php';
                             </a>
                             <ul class="dropdown-menu hold-on-click">
                                 
-                                <li><!-- my inbox -->
-                                    <a href="#"><i class="fa fa-envelope"></i> Inbox
-                                        <span class="pull-right label label-default">0</span>
-                                    </a>
-                                </li>
+                                
                                 <li><!-- settings -->
                                     <a href="page-user-profile.html"><i class="fa fa-cogs"></i> Settings</a>
                                 </li>
-
-                                <li class="divider"></li>
 
                                 
                                 <li><!-- logout -->
@@ -205,11 +202,11 @@ include 'api/config/database.php';
 
 
                 <!-- page title -->
-               <header id="page-header">
-                    <h1>Add New Item</h1>
+                <header id="page-header">
+                    <h1>Adjust Stock </h1>
                     <ol class="breadcrumb">
                         <li><a href="index.php">Home</a></li>
-                        <li class="active">Add Item</li>
+                        <li class="active">Adjust Stock</li>
                     </ol>
                 </header>
                 <!-- /page title -->
@@ -218,94 +215,71 @@ include 'api/config/database.php';
                 <div id="content" class="padding-20">
 
                     <form>
-    <fieldset>
-        
-
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>Item Name *</label>
-                    <input value=""  type="text" id="itemname"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Item Class *</label>
-                    <input value=""  type="text" id="itemclass"  class="form-control required">
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>Item No. *</label>
-                    <input value=""  type="text" id="itemno"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Uses *</label>
-                    <input value=""  type="text" id="uses"  class="form-control required">
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>Opening Stock *</label>
-                    <input value=""  type="number" id="openingstock"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Optimal Level </label>
-                    <input value="" type="number" id="optimal"  class="form-control required">
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>Over Stock Level </label>
-                    <input value="" type="number" id="overstock"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Under Stock Level </label>
-                    <input  value="" type="number" id="understock"  class="form-control required">
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-                               <div class="form-group">
-                <div class="col-md-6 col-sm-6">
-                    <label>UOM </label>
-                    <input value=""  type="text" id="uom"  class="form-control required">
-                </div>
-                <div class="col-md-6 col-sm-6">
-                    <label>Date </label>
-                    <input type="text" id="date" value="<?php echo date('m-d-Y');?>" class="form-control required" readonly
-     >
-                </div>
-            </div>
-        </div>
-        
-        
-       
-
-        <div class="row">
-            <div class="col-md-12">
-                <input id="b" type="button" onclick="addProduct()" class="btn btn-teal btn-lg " value="Create">
-                
-                    
-
-                
-            </div>
-        </div>
-
-    </fieldset>
+                        <fieldset>
 
 
 
-</form>
+
+                            <div class="form-group">
+                                <label>Item Name.*</label>
+
+                                <input id="item" placeholder="Select Item Name" list="itemname" name="itemname" class="form-control select2">
+                                <datalist id="itemname">
+                                    <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                                        <option value="<?= $row["item_name"]; ?>"></option>
+                                    <?php } ?>   
+                                </datalist>
+                                <!--
+                                        .fancy-arrow
+                                        .fancy-arrow-double
+                                -->
+
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Adjustment Type*</label>
+                                <select id="adjustmenttype" class="form-control">
+                                    <option value="">--- Adjustment Type ---</option>
+                                    <option value="positive">Positive</option>
+                                    <option value="negative">Negative</option>
+                                   
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Quantity *</label>
+                                <input id="quantity" placeholder="Quantity Added or taken out" value=""  type="number" id="openingstock"  class="form-control required">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Reason* </label>
+                                <input id="reason" placeholder="Reason for Adjustment" value="" type="text" id="optimal"  class="form-control required">
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </fieldset>
+                        <input id="b" type="button" onclick="createAdjustment()" class="btn btn-teal btn-lg" value="Post">
+
+
+
+                    </form>
 
                 </div>
             </section>
@@ -315,9 +289,9 @@ include 'api/config/database.php';
         <footer class="page-footer text-center font-small">
             <div class="container">
                 <p> &copy; 2015-<?php
-                    $today = date(Y);
-                    echo $today;
-                    ?> Codershift.com</p>
+                                    $today = date(Y);
+                                    echo $today;
+                                    ?> Codershift.com</p>
             </div>
         </footer>
 
@@ -330,14 +304,14 @@ include 'api/config/database.php';
         <script type="text/javascript" src="assets/js/app.js"></script>
         <script type="text/javascript" src="myjs/tables.js"></script>
         <script type="text/javascript" src="myjs/myjs.js"></script>
-   
+
         <script>
-        
+
         </script>
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
-    
-    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+
     </body>
-    
-    
+
+
 </html>

@@ -155,6 +155,8 @@ class User {
             }
             return $data;
         }
+        
+        
 
         function clean($email, $key) {
             $this->email = mysqli_real_escape_string($this->con, $email);
